@@ -18,6 +18,13 @@ sql_querybis = """ CREATE table `user` (
     mail VARCHAR(300) NOT NULL,
     password VARCHAR(100) NOT NULL)"""
 
+sql_querybis_bis = """ CREATE table `beerlist` (
+id INT PRIMARY KEY AUTO_INCREMENT,
+user_id INT NOT NULL,
+beer_id INT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES user(id),
+FOREIGN KEY (beer_id) REFERENCES beer(id))"""
+
 sql_beer = """ INSERT INTO beer (name,percentageAlcohol,category) VALUES 
 (Heineken,3.2,Blonde), 
 (1661,5.5,Blonde),
@@ -26,5 +33,6 @@ sql_beer = """ INSERT INTO beer (name,percentageAlcohol,category) VALUES
 
 sql_user = """ INSERT INTO user (pseudo,mail,password) VALUES (test,test@test.com,test) """
 
-cursor.execute(sql_query)
-cursor.execute(sql_querybis)
+# cursor.execute(sql_query)
+# cursor.execute(sql_querybis)
+cursor.execute(sql_querybis_bis)
