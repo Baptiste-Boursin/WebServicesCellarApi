@@ -10,7 +10,7 @@ def beers() :
     if request.method=='GET':
         cursor.execute("SELECT * FROM beer")
         beers = [
-            dict(id=row[0],name = row[1], percentageAlcohol=row[2], category=row[3],stock=row[4])
+            dict(id=row[0],name = row[1], percentageAlcohol=row[2], category=row[3],stock=row[4],image=row[5])
             for row in cursor.fetchall()
         ]
         if beers is not None :
@@ -22,8 +22,9 @@ def beers() :
         new_percentageAlcohol = request.form['percentageAlcohol']
         new_category = request.form['category']
         new_stock = request.form['stock']
-        sql = """INSERT INTO beer (name,percentageAlcohol,category,stock) VALUES (?,?,?,?) """
-        cursor.execute(sql,(new_name,new_percentageAlcohol,new_category,new_stock))
+        new_image = request.form['image']
+        sql = """INSERT INTO beer (name,percentageAlcohol,category,stock,image) VALUES (?,?,?,?,?) """
+        cursor.execute(sql,(new_name,new_percentageAlcohol,new_category,new_stock,new_image))
         conn.commit()
         cursor.close()
         conn.close()
@@ -53,20 +54,23 @@ def single_beer(id):
                 SET name = ?,
                     percentageAlcohol=?,
                     category=?,
-                    stock=?
+                    stock=?,
+                    image=?
                 WHERE id=? """
         name= request.form["name"]
         percentageAlcohol = request.form["percentageAlcohol"]
         category = request.form["category"]
         stock=request.form['stock']
+        image = request.form['image']
         updated_beer = {
             'id':id,
             'name' : name,
             'percentageAlcohol' : percentageAlcohol,
             'category' : category,
-            'stock' :stock
+            'stock' :stock,
+            'image':image
         }
-        cursor.execute(sql,(name,percentageAlcohol,category,stock,int(id)))
+        cursor.execute(sql,(name,percentageAlcohol,category,stock,image,int(id)))
         conn.commit()
         cursor.close()
         conn.close()
